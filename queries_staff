@@ -1,0 +1,71 @@
+ 1. Open purchase order for a customer (insert data into purchase and pickup/deliver table)
+    
+    a) insert into table "purchase"
+    INSERT INTO PURCHASE VALUES (7006, 2010000003, 3005, 602, TO_DATE('2022-04-02', 'YYYY-MM_DD'));
+    
+    b) insert into pickup or deliver
+    INSERT INTO PICKUP VALUES (7006, TO_DATE('2022-04-12', 'YYYY-MM_DD'), 'done', 101);
+    INSERT INTO DELIVER VALUES (7006, '483 Locust St. Fairmont, WV 26554', 'done', 602);
+ 
+ 2. Edit status of pickup/deliver with given order number
+    
+    a) update pickup
+    UPDATE pickup 
+    SET STATUS='DONE'
+    WHERE ORDERNUM=7004
+    
+    b) update deliver
+    UPDATE deliver 
+    SET STATUS='OFD'
+    WHERE ORDERNUM=7005
+ 
+ 3. Generate list of avaliable book given the library name
+ 
+    SELECT b.booktitle as Book, b.price as Price, s.qkeep AS ForRent, s.qsale as ForSale
+    FROM LIBRARY l, BOOK b, LSTORAGE s
+    WHERE s.libraryID=l.libraryID and s.ISBN = b.ISBN
+      and l.libraryName='1st library'
+ 
+ 4. Update rent table
+ 
+    UPDATE RENT
+    SET status='returned'
+    WHERE ordernum=803
+    
+ 5. Update lateDate column of rent table
+ 
+    UPDATE rent
+    SET latedate=(
+      SELECT (
+        SELECT SYSDATE from dual
+      )-returnDate
+      FROM dual
+     )
+      
+ 6. List all book that's rent out
+ 
+    SELECT c.customerFName AS firstName, c.customerLName AS lastName, b.booktitle AS bookTitle, r.status AS status, r.rentDate AS rentDate, r.returnDate AS returnDate, r.lateDate AS lateDate 
+    FROM RENT r, CUSTOMER c, BOOK b
+    WHERE r.ISBN=b.ISBN and r.customerID=c.customerID and
+        status!='returned'
+ 
+ 7. Check list of request that qkeep for the requested book in the requested library is 0
+ 
+    SELECT r.*
+    FROM REQUEST r, lSTORAGE l
+    WHERE r.libraryID=l.libraryID and r.ISBN=l.ISBN
+      and qkeep=0
+ 
+ 8. Show the administrator given the libraryID
+ 
+    SELECT s.*
+    FROM ADMINISTRATOR a, staff s
+    WHERE a.libraryID=101 and s.staffID=a.staffID
+
+ 9. Update storage (qKeep, qSale)
+    
+    UPDATE lSTORAGE
+    SET qkeep=200, qSale=200
+    WHERE libraryID=101 and ISBN=2010000001
+ 
+ 
