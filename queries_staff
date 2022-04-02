@@ -52,9 +52,9 @@
  
  7. Check list of request that qkeep for the requested book in the requested library is 0
  
-    SELECT r.*
-    FROM REQUEST r, lSTORAGE l
-    WHERE r.libraryID=l.libraryID and r.ISBN=l.ISBN
+    SELECT b.booktitle, lb.libraryName
+    FROM REQUEST r, lSTORAGE l, book b, library lb
+    WHERE r.libraryID=l.libraryID and r.ISBN=l.ISBN and b.ISBN=r.ISBN and lb.libraryID=r.libraryID
       and qkeep=0
  
  8. Show the administrator given the libraryID
