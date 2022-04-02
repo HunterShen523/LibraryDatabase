@@ -52,7 +52,7 @@
  
  7. Check list of request that qkeep for the requested book in the requested library is 0
  
-    SELECT b.booktitle, lb.libraryName
+    SELECT r.requestID , b.booktitle, lb.libraryName
     FROM REQUEST r, lSTORAGE l, book b, library lb
     WHERE r.libraryID=l.libraryID and r.ISBN=l.ISBN and b.ISBN=r.ISBN and lb.libraryID=r.libraryID
       and qkeep=0
