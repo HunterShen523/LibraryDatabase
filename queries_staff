@@ -34,7 +34,7 @@
     
  5. Update lateDate column of rent table
  
-        UPDATE rent
+    UPDATE rent
     SET latedate=(
       SELECT (
         SELECT SYSDATE from dual
