@@ -34,14 +34,15 @@
     
  5. Update lateDate column of rent table
  
-    UPDATE rent
+        UPDATE rent
     SET latedate=(
       SELECT (
         SELECT SYSDATE from dual
       )-returnDate
       FROM dual
      )
-      
+    WHERE status='late'
+    
  6. List all book that's rent out
  
     SELECT c.customerFName AS firstName, c.customerLName AS lastName, b.booktitle AS bookTitle, r.status AS status, r.rentDate AS rentDate, r.returnDate AS returnDate, r.lateDate AS lateDate 
